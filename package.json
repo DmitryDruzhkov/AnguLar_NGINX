@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "docker:build": "docker build -t ui .",
+    "start": "docker run --rm --name ui -d -p 80:80 ui:latest && ng serve --disable-host-check=true --host=0.0.0.0 &",
+    "stop-windows": "(for /f \"tokens=5\" %a in ('netstat -ano ^| find \"4200\" ^| find \"LISTENING\"') do taskkill /f /pid %a) && docker kill ui",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
